@@ -1,14 +1,19 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.Year;
 import java.util.UUID;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Vehicle {
     @Id
@@ -16,10 +21,10 @@ public class Vehicle {
     @Column(name = "id")
     private UUID id;
 
-    @Column(name = "vin")
+    @Column(name = "vin", unique = true)
     private String vin;
 
-    @Column(name = "plate_no")
+    @Column(name = "plate_no", unique = true)
     private String plateNo;
 
     @Column(name = "make")
@@ -29,13 +34,14 @@ public class Vehicle {
     private String model;
 
     @Column(name = "manufacture_year")
-    private int year;
+    private Year year;
 
     @Column(name = "is_active")
     private boolean isActive;
 
-//    @Column(name = "owner_id")
-//    private Owner currentOwner;
+    @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
+    private Owner owner;
 
     @Column(name = "registration_date")
     private LocalDateTime registrationDate;

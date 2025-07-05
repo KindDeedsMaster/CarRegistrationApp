@@ -10,17 +10,17 @@ import java.util.UUID;
 @Entity
 @Data
 @Builder
-public class VehicleHistory {
+public class Archive {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
 
-//    @Column(name = "owner_id")
-//    private Owner owner;
-//
-//    @Column(name = "vehicle_id")
-//    private Vehicle vehicle;
+    @Column(name = "owner_id")
+    private UUID ownerId;
+
+    @Column(name = "vehicle_id")
+    private UUID vehicleId;
 
     @Column (name = "plate_no")
     private String plateNo;
@@ -34,8 +34,6 @@ public class VehicleHistory {
     @PrePersist
     public void onCreate(){
         registrationEndedAt = LocalDateTime.now();
-//        registeredAt = vehicle.getRegistrationDate();
-//        plateNo = vehicle.getPlateNo();
     }
 
 
