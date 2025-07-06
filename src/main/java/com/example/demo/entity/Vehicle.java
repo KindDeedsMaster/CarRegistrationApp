@@ -21,7 +21,7 @@ public class Vehicle {
     @Column(name = "id")
     private UUID id;
 
-    @Column(name = "vin", unique = true)
+    @Column(name = "vin")
     private UUID vin;
 
     @Column(name = "plate_no", unique = true)

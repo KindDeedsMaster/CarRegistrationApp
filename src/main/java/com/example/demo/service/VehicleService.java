@@ -5,7 +5,9 @@ import com.example.demo.Dto.CreateVehicleDto;
 import com.example.demo.Dto.NewOwner;
 import com.example.demo.entity.Owner;
 import com.example.demo.entity.Vehicle;
+import com.example.demo.exception.PlateInUseException;
 import com.example.demo.repository.VehicleRepository;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,15 +25,18 @@ public class VehicleService {
     private final ArchiveService archiveService;
 
     public Vehicle registerVehicle(CreateVehicleDto vehicleDto) {
+        if (vehicleRepository.existsByPlateNo(vehicleDto.getPlateNo())){
+            throw new PlateInUseException("Transporto priemonė su šiais numeriais jau egzistuoja");
+        }
         NewOwner newOwner = NewOwner.builder()
                 .newOwnerCode(vehicleDto.getOwnerCode())
                 .newLegalName(vehicleDto.getOwnerLegalName())
                 .newOwnerName(vehicleDto.getOwnerName())
                 .newOwnerSurname(vehicleDto.getOwnerSurname())
                 .build();
-        Owner owner = ownerService.createOwner(newOwner);
+        Owner owner = ownerService.getNewOwner(newOwner);
         Vehicle vehicle = Vehicle.builder()
-                .vin(UUID.randomUUID())
+//                .vin(UUID.randomUUID())
                 .make(vehicleDto.getMake())
                 .year(vehicleDto.getYear())
                 .model(vehicleDto.getModel())
@@ -50,9 +55,10 @@ public class VehicleService {
 
     public void deleteVehicle (UUID vehicleId){
         Vehicle vehicle = getVehicleById(vehicleId);
+        archiveService.addToArchive(vehicle);
+        vehicle.setPlateNo("");
         vehicle.setActive(false);
         vehicleRepository.save(vehicle);
-        archiveService.addToArchive(vehicle);
     }
 
     public Page<Vehicle> getAllVehicles (Pageable pageable){

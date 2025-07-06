@@ -7,6 +7,7 @@ import com.example.demo.entity.Owner;
 import com.example.demo.entity.Vehicle;
 import com.example.demo.service.OwnerService;
 import com.example.demo.service.VehicleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +25,7 @@ public class VehicleController {
 
     @PostMapping(path = "/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public Vehicle createVehicle(@RequestBody CreateVehicleDto newVehicle) {
+    public Vehicle createVehicle(@Valid @RequestBody CreateVehicleDto newVehicle) {
         System.out.println(newVehicle);
         return vehicleService.registerVehicle(newVehicle);
     }
@@ -44,7 +45,7 @@ public class VehicleController {
     @PostMapping(path = "/{vehicleId}/transfer-owner")
     @ResponseStatus(HttpStatus.OK)
     public Vehicle changeOwner (@PathVariable UUID vehicleId,
-                                @RequestBody NewOwner newOwner){
+                                @Valid @RequestBody NewOwner newOwner){
         return vehicleService.changeOwner(vehicleId, newOwner);
     }
 
