@@ -1,18 +1,22 @@
 package com.example.demo.service;
 
 import com.example.demo.Dto.CreateOwnerDto;
+import com.example.demo.Dto.NewOwner;
 import com.example.demo.entity.Owner;
 import com.example.demo.enums.OwnerType;
 import com.example.demo.repository.OwnerRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class OwnerService {
     private final OwnerRepository ownerRepository;
 
-    public Owner createOwner(CreateOwnerDto newOwner) {
+    public Owner createOwner(NewOwner newOwner) {
 //        if (newOwner.getNewLegalName().isBlank() && newOwner.getNewOwnerCode().length() == 9){
 //            OwnerType ownerType = OwnerType.LEGAL;
 //        }
@@ -29,5 +33,10 @@ public class OwnerService {
 
     private boolean isLegal(String ownerCode) {
         return ownerCode.length() == 9;
+    }
+
+    public Owner getNewOwner(NewOwner newOwner) {
+        return ownerRepository.findByOwnerCode(newOwner.getNewOwnerCode())
+                .orElseGet(() -> createOwner(newOwner));
     }
 }

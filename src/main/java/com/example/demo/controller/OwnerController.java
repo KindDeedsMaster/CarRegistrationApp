@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.Dto.CreateOwnerDto;
+import com.example.demo.Dto.NewOwner;
 import com.example.demo.entity.Owner;
 import com.example.demo.service.OwnerService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ public class OwnerController {
 
     @PostMapping(path = "/owner")
     @ResponseStatus(HttpStatus.CREATED)
-    public Owner createOwner (@RequestBody CreateOwnerDto newOwner){
+    public Owner createOwner (@RequestBody NewOwner newOwner){
         System.out.println(newOwner);
         return ownerService.createOwner(newOwner);
     }

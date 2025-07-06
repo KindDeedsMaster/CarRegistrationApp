@@ -22,7 +22,7 @@ public class Vehicle {
     private UUID id;
 
     @Column(name = "vin", unique = true)
-    private String vin;
+    private UUID vin;
 
     @Column(name = "plate_no", unique = true)
     private String plateNo;
@@ -51,8 +51,8 @@ public class Vehicle {
         registrationDate = LocalDateTime.now();
     }
 
-    @PreUpdate
-    public void onUpdate(){
-        registrationDate = LocalDateTime.now();
-    }
+//    @PreUpdate
+//    public void onUpdate(){
+//        registrationDate = LocalDateTime.now();
+//    }
 }
