@@ -29,6 +29,14 @@ public class GlobalExceptionHandler {
         return response;
     }
 
+    @ExceptionHandler(VehicleHasNoOwnerException.class)
+    public ProblemDetail handleHasNoOwner(VehicleHasNoOwnerException exception) {
+        ProblemDetail response = ProblemDetail.forStatus(400);
+        response.setTitle("Vehicle has no owner");
+        response.setDetail(exception.getMessage());
+        return response;
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ProblemDetail handleValidationErrors(MethodArgumentNotValidException exception) {
         Map<String, String> errors = exception.getBindingResult()
@@ -39,11 +47,10 @@ public class GlobalExceptionHandler {
                         FieldError::getDefaultMessage
                 ));
 
-        ProblemDetail problemDetail = ProblemDetail.forStatus(400);
-        problemDetail.setTitle("Invalid data");
-        problemDetail.setDetail("One or more fields have validation errors.");
-        problemDetail.setProperty("errors", errors);
-
-        return problemDetail;
+        ProblemDetail response = ProblemDetail.forStatus(400);
+        response.setTitle("Invalid data");
+        response.setDetail("One or more fields have validation errors.");
+        response.setProperty("errors", errors);
+        return response;
     }
 }

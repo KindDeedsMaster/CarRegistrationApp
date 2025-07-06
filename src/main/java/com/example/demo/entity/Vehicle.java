@@ -40,7 +40,7 @@ public class Vehicle {
     private boolean isActive;
 
     @ManyToOne
-    @JoinColumn(name = "owner_id", nullable = false)
+    @JoinColumn(name = "owner_id")
     private Owner owner;
 
     @Column(name = "registration_date")

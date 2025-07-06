@@ -1,13 +1,12 @@
 package com.example.demo.service;
 
-import com.example.demo.Dto.CreateOwnerDto;
 import com.example.demo.Dto.CreateVehicleDto;
 import com.example.demo.Dto.NewOwner;
 import com.example.demo.entity.Owner;
 import com.example.demo.entity.Vehicle;
+import com.example.demo.exception.VehicleHasNoOwnerException;
 import com.example.demo.exception.PlateInUseException;
 import com.example.demo.repository.VehicleRepository;
-import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -58,6 +57,7 @@ public class VehicleService {
         archiveService.addToArchive(vehicle);
         vehicle.setPlateNo("");
         vehicle.setActive(false);
+        vehicle.setOwner(null);
         vehicleRepository.save(vehicle);
     }
 
@@ -67,6 +67,9 @@ public class VehicleService {
 
     public Vehicle changeOwner (UUID vehicleId, NewOwner newOwner){
         Vehicle vehicle = getVehicleById(vehicleId);
+        if (vehicle.getOwner() == null){
+            throw new VehicleHasNoOwnerException("Vehicle has no owner, so can't be transferred");
+        }
         Owner owner = ownerService.getNewOwner(newOwner);
         archiveService.addToArchive(vehicle);
         vehicle.setOwner(owner);
