@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(VehicleHasNoOwnerException.class)
     public ProblemDetail handleHasNoOwner(VehicleHasNoOwnerException exception) {
-        ProblemDetail response = ProblemDetail.forStatus(400);
+        ProblemDetail response = ProblemDetail.forStatus(404);
         response.setTitle("Vehicle has no owner");
         response.setDetail(exception.getMessage());
         return response;

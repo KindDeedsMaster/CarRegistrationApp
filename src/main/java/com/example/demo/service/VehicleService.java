@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.Dto.CreateVehicleDto;
+import com.example.demo.Dto.NewVehicleDto;
 import com.example.demo.Dto.NewOwner;
 import com.example.demo.entity.Owner;
 import com.example.demo.entity.Vehicle;
@@ -23,7 +23,7 @@ public class VehicleService {
     private final OwnerService ownerService;
     private final ArchiveService archiveService;
 
-    public Vehicle registerVehicle(CreateVehicleDto vehicleDto) {
+    public Vehicle registerVehicle(NewVehicleDto vehicleDto) {
         if (vehicleRepository.existsByPlateNo(vehicleDto.getPlateNo())){
             throw new PlateInUseException("Transporto priemonė su šiais numeriais jau egzistuoja");
         }

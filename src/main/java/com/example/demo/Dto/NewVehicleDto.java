@@ -9,15 +9,15 @@ import java.time.Year;
 
 @Value
 @Builder
-public class CreateVehicleDto {
+public class NewVehicleDto {
     @NotBlank
-//    @NotNull(message = "Plate number cannot be null")
+    @NotNull(message = "Plate number cannot be null")
     String plateNo;
     @NotBlank(message = "Make cannot be blank")
     String make;
     @NotBlank(message = "Model cannot be blank")
     String model;
-//    @NotBlank(message = "First registration year cannot be blank")
+    @NotBlank(message = "First registration year cannot be blank")
     Year year;
     String ownerName;
     String ownerSurname;
