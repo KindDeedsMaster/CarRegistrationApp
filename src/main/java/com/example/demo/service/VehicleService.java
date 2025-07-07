@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -23,6 +24,7 @@ public class VehicleService {
     private final OwnerService ownerService;
     private final ArchiveService archiveService;
 
+    @Transactional
     public Vehicle registerVehicle(NewVehicleDto vehicleDto) {
         if (vehicleRepository.existsByPlateNo(vehicleDto.getPlateNo())) {
             throw new PlateInUseException("Transporto priemonė su šiais numeriais jau egzistuoja");
@@ -51,6 +53,7 @@ public class VehicleService {
                 .orElseThrow(() -> new EntityNotFoundException("vehicle not found "));
     }
 
+    @Transactional
     public void deleteVehicle(UUID vehicleId) {
         Vehicle vehicle = getVehicleById(vehicleId);
         archiveService.addToArchive(vehicle);
@@ -64,6 +67,7 @@ public class VehicleService {
         return vehicleRepository.findAll(pageable);
     }
 
+    @Transactional
     public Vehicle changeOwner(UUID vehicleId, NewOwnerDto newOwnerDto) {
         Vehicle vehicle = getVehicleById(vehicleId);
         if (vehicle.getOwner() == null) {

@@ -6,12 +6,14 @@ import com.example.demo.enums.OwnerType;
 import com.example.demo.repository.OwnerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class OwnerService {
     private final OwnerRepository ownerRepository;
 
+    @Transactional
     public Owner createOwner(NewOwnerDto newOwnerDto) {
         Owner owner = Owner.builder()
                 .ownerType(newOwnerDto.getNewOwnerCode().length() == 9 ? OwnerType.LEGAL : OwnerType.PRIVATE)
