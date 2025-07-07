@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class CreateOwnerDto {
+public class NewOwnerDto {
     String newOwnerCode;
     String newOwnerName;
     String newOwnerSurname;

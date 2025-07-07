@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.Dto.NewVehicleDto;
-import com.example.demo.Dto.NewOwner;
+import com.example.demo.Dto.NewOwnerDto;
 import com.example.demo.entity.Vehicle;
 import com.example.demo.service.VehicleService;
 import jakarta.validation.Valid;
@@ -42,8 +42,8 @@ public class VehicleController {
     @PostMapping(path = "/{vehicleId}/transfer-owner")
     @ResponseStatus(HttpStatus.OK)
     public Vehicle changeOwner (@PathVariable UUID vehicleId,
-                                @Valid @RequestBody NewOwner newOwner){
-        return vehicleService.changeOwner(vehicleId, newOwner);
+                                @Valid @RequestBody NewOwnerDto newOwnerDto){
+        return vehicleService.changeOwner(vehicleId, newOwnerDto);
     }
 
     @GetMapping

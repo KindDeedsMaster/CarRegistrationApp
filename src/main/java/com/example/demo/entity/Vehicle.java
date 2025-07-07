@@ -47,12 +47,7 @@ public class Vehicle {
     private LocalDateTime registrationDate;
 
     @PrePersist
-    public void onCreate(){
+    public void onCreate() {
         registrationDate = LocalDateTime.now();
     }
-
-//    @PreUpdate
-//    public void onUpdate(){
-//        registrationDate = LocalDateTime.now();
-//    }
 }

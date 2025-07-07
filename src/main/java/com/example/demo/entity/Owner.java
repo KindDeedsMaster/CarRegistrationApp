@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -36,7 +35,7 @@ public class Owner {
     private String ownerCode;
 
     @Column(name = "type")
-    @Enumerated (EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private OwnerType ownerType;
 
     @Column(name = "vehicle")

@@ -22,22 +22,17 @@ public class Archive {
     @Column(name = "vehicle_id")
     private UUID vehicleId;
 
-    @Column (name = "plate_no")
+    @Column(name = "plate_no")
     private String plateNo;
 
-    @Column (name = "registered_at")
+    @Column(name = "registered_at")
     private LocalDateTime registeredAt;
 
-    @Column (name = "registration_ended_at")
+    @Column(name = "registration_ended_at")
     private LocalDateTime registrationEndedAt;
 
     @PrePersist
-    public void onCreate(){
+    public void onCreate() {
         registrationEndedAt = LocalDateTime.now();
     }
-
-
-
-
-
 }

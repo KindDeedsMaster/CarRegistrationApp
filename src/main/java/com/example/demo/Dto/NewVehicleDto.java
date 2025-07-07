@@ -17,7 +17,6 @@ public class NewVehicleDto {
     String make;
     @NotBlank(message = "Model cannot be blank")
     String model;
-    @NotBlank(message = "First registration year cannot be blank")
     Year year;
     String ownerName;
     String ownerSurname;

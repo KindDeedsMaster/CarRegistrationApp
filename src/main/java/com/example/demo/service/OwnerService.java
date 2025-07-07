@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.Dto.NewOwner;
+import com.example.demo.Dto.NewOwnerDto;
 import com.example.demo.entity.Owner;
 import com.example.demo.enums.OwnerType;
 import com.example.demo.repository.OwnerRepository;
@@ -12,20 +12,20 @@ import org.springframework.stereotype.Service;
 public class OwnerService {
     private final OwnerRepository ownerRepository;
 
-    public Owner createOwner(NewOwner newOwner) {
+    public Owner createOwner(NewOwnerDto newOwnerDto) {
         Owner owner = Owner.builder()
-                .ownerType(newOwner.getNewOwnerCode().length() == 9 ? OwnerType.LEGAL : OwnerType.PRIVATE)
-                .name(newOwner.getNewOwnerName())
-                .surname(newOwner.getNewOwnerSurname())
-                .legalName(newOwner.getNewLegalName())
-                .ownerCode(newOwner.getNewOwnerCode())
+                .ownerType(newOwnerDto.getNewOwnerCode().length() == 9 ? OwnerType.LEGAL : OwnerType.PRIVATE)
+                .name(newOwnerDto.getNewOwnerName())
+                .surname(newOwnerDto.getNewOwnerSurname())
+                .legalName(newOwnerDto.getNewLegalName())
+                .ownerCode(newOwnerDto.getNewOwnerCode())
                 .build();
         ownerRepository.save(owner);
         return owner;
     }
 
-    public Owner getNewOwner(NewOwner newOwner) {
-        return ownerRepository.findByOwnerCode(newOwner.getNewOwnerCode())
-                .orElseGet(() -> createOwner(newOwner));
+    public Owner getNewOwner(NewOwnerDto newOwnerDto) {
+        return ownerRepository.findByOwnerCode(newOwnerDto.getNewOwnerCode())
+                .orElseGet(() -> createOwner(newOwnerDto));
     }
 }

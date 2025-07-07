@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.Dto.NewVehicleDto;
-import com.example.demo.Dto.NewOwner;
+import com.example.demo.Dto.NewOwnerDto;
 import com.example.demo.entity.Owner;
 import com.example.demo.entity.Vehicle;
 import com.example.demo.exception.VehicleHasNoOwnerException;
@@ -24,18 +24,17 @@ public class VehicleService {
     private final ArchiveService archiveService;
 
     public Vehicle registerVehicle(NewVehicleDto vehicleDto) {
-        if (vehicleRepository.existsByPlateNo(vehicleDto.getPlateNo())){
+        if (vehicleRepository.existsByPlateNo(vehicleDto.getPlateNo())) {
             throw new PlateInUseException("Transporto priemonė su šiais numeriais jau egzistuoja");
         }
-        NewOwner newOwner = NewOwner.builder()
+        NewOwnerDto newOwnerDto = NewOwnerDto.builder()
                 .newOwnerCode(vehicleDto.getOwnerCode())
                 .newLegalName(vehicleDto.getOwnerLegalName())
                 .newOwnerName(vehicleDto.getOwnerName())
                 .newOwnerSurname(vehicleDto.getOwnerSurname())
                 .build();
-        Owner owner = ownerService.getNewOwner(newOwner);
+        Owner owner = ownerService.getNewOwner(newOwnerDto);
         Vehicle vehicle = Vehicle.builder()
-//                .vin(UUID.randomUUID())
                 .make(vehicleDto.getMake())
                 .year(vehicleDto.getYear())
                 .model(vehicleDto.getModel())
@@ -52,7 +51,7 @@ public class VehicleService {
                 .orElseThrow(() -> new EntityNotFoundException("vehicle not found "));
     }
 
-    public void deleteVehicle (UUID vehicleId){
+    public void deleteVehicle(UUID vehicleId) {
         Vehicle vehicle = getVehicleById(vehicleId);
         archiveService.addToArchive(vehicle);
         vehicle.setPlateNo("");
@@ -61,16 +60,16 @@ public class VehicleService {
         vehicleRepository.save(vehicle);
     }
 
-    public Page<Vehicle> getAllVehicles (Pageable pageable){
+    public Page<Vehicle> getAllVehicles(Pageable pageable) {
         return vehicleRepository.findAll(pageable);
     }
 
-    public Vehicle changeOwner (UUID vehicleId, NewOwner newOwner){
+    public Vehicle changeOwner(UUID vehicleId, NewOwnerDto newOwnerDto) {
         Vehicle vehicle = getVehicleById(vehicleId);
-        if (vehicle.getOwner() == null){
+        if (vehicle.getOwner() == null) {
             throw new VehicleHasNoOwnerException("Vehicle has no owner, so can't be transferred");
         }
-        Owner owner = ownerService.getNewOwner(newOwner);
+        Owner owner = ownerService.getNewOwner(newOwnerDto);
         archiveService.addToArchive(vehicle);
         vehicle.setOwner(owner);
         vehicle.setActive(true);

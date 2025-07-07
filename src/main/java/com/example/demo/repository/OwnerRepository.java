@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface OwnerRepository extends JpaRepository<Owner, UUID> {
-    Optional<Owner> findByOwnerCode (String ownerCode);
+    Optional<Owner> findByOwnerCode(String ownerCode);
 }

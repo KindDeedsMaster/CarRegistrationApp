@@ -1,12 +1,10 @@
 package com.example.demo.service;
 
-import com.example.demo.Dto.NewOwner;
+import com.example.demo.Dto.NewOwnerDto;
 import com.example.demo.Dto.NewVehicleDto;
-import com.example.demo.entity.Archive;
 import com.example.demo.entity.Owner;
 import com.example.demo.entity.Vehicle;
 import com.example.demo.enums.OwnerType;
-import com.example.demo.repository.OwnerRepository;
 import com.example.demo.repository.VehicleRepository;
 
 import org.assertj.core.api.Assertions;
@@ -67,7 +65,7 @@ class VehicleServiceTest {
                 .build();
 
         when(vehicleRepository.existsByPlateNo("ABC123")).thenReturn(false);
-        when(ownerService.getNewOwner(any(NewOwner.class))).thenReturn(mockOwner);
+        when(ownerService.getNewOwner(any(NewOwnerDto.class))).thenReturn(mockOwner);
         when(vehicleRepository.save(any(Vehicle.class))).thenReturn(vehicle);
 
         Vehicle registeredVehicle = vehicleService.registerVehicle(newVehicleDto);
@@ -142,7 +140,7 @@ class VehicleServiceTest {
                 .surname(null)
                 .build();
 
-        NewOwner newOwnerDto = NewOwner.builder()
+        NewOwnerDto newOwnerDto = NewOwnerDto.builder()
                 .newOwnerCode("987654321")
                 .newLegalName("New UAB")
                 .newOwnerName("New")
