@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class VehicleServiceTest {
@@ -123,6 +123,7 @@ class VehicleServiceTest {
         when(vehicleRepository.findById(uuid)).thenReturn(Optional.of(vehicle));
 
         vehicleService.deleteVehicle(uuid);
+        verify(archiveService).addToArchive(vehicle);
         Assertions.assertThat(vehicle.getPlateNo()).isEmpty();
         Assertions.assertThat(vehicle.isActive()).isFalse();
         Assertions.assertThat(vehicle.getOwner()).isNull();

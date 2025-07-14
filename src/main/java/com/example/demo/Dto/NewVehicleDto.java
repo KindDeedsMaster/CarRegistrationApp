@@ -10,8 +10,7 @@ import java.time.Year;
 @Value
 @Builder
 public class NewVehicleDto {
-    @NotBlank
-    @NotNull(message = "Plate number cannot be null")
+    @NotBlank(message = "Plate number cannot be null")
     String plateNo;
     @NotBlank(message = "Make cannot be blank")
     String make;

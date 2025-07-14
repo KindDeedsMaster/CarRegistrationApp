@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedModel;
-import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +25,6 @@ public class VehicleController {
     @PostMapping(path = "/register")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseDto createVehicle(@Valid @RequestBody NewVehicleDto newVehicle) {
-        System.out.println(newVehicle);
         Vehicle vehicle = vehicleService.registerVehicle(newVehicle);
         return ResponseDto.builder()
                 .message("Transporto priemonė sėkmingai užregistruota")
@@ -75,7 +72,7 @@ public class VehicleController {
 
     @GetMapping
     public Page<Vehicle> getVehicles(
-            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "2") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);

@@ -44,8 +44,7 @@ public class VehicleService {
                 .isActive(true)
                 .owner(owner)
                 .build();
-        vehicleRepository.save(vehicle);
-        return vehicle;
+        return vehicleRepository.save(vehicle);
     }
 
     public Vehicle getVehicleById(UUID vehicleId) {
